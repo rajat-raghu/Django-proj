@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block title %}To-Do List{% endblock %}
+
+{% block content %}
+
+{% if messages %}
+	{% for message in messages %}
+		<div class="alert alert-success alert-dismissible " role="alert" >
+			<button class="close" data-dismiss="alert" aria-label="close">
+	            <small><sup>x</sup></small>
+	        </button>
+			{{ message }}
+		</div>
+	{% endfor%}
+
+{% endif %}
+
+	{% if all_items %}
+	<table class="table table-bordered" style="text-align: center;">
+        <thead>
+            <tr style=" background-color: cadetblue; text-decoration: black; font-weight: bold">
+                <td style="column-span: 3; row-span: 3;"> To-Do list</td>
+                <td style="column-span: 3; row-span: 3;"> </td>
+                <td style="column-span: 3; row-span: 3;"> </td>
+            </tr>
+        </thead>
+		{% for things in all_items %}
+			{% if things.completed %}
+				<tr class="table-secondary">
+					<td class="striker"><a href="{% url 'edit' things.id %}">{{ things.item }}</a></td>
+					<td><center><button><a href="{% url 'uncross' things.id %}">Uncross</a></button></center></td>
+					<td><center><button><a href="{% url 'delete' things.id %}">Delete</a></center></button></td>
+				</tr>
+			{% else %}
+				<tr>
+					<td><a href="{% url 'edit' things.id %}">{{ things.item }}</a></td>
+					<td><center><button><a href="{% url 'cross_off' things.id %}">Cross Off</a></button></center></td>
+					<td><center><button><a href="{% url 'delete' things.id %}">Delete</a></center></button></td>
+				</tr>
+			{% endif %}
+		{% endfor %}
+        <tfooter>
+            <tr style="row-span: 3; column-span: 3;">
+                <td style="column-span: 3; row-span: 3; text-decoration: darkslategrey; background: black; font-weight: bolder;"> To-Do List</td>
+                <td style="column-span: 3; row-span: 3; text-decoration: darkslategrey; background: black;"> </td>
+                <td style="column-span: 3; row-span: 3; text-decoration: darkslategrey; background: black;"> </td>
+
+            </tr>
+        </tfooter>
+	</table>
+	{% endif %}
+
+{% endblock %}
